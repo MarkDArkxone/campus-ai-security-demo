@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}校园智能安防系统{% endblock %}</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block head %}{% endblock %}
+</head>
+<body data-page="{% block page_id %}general{% endblock %}">
+<div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+        <a class="brand" href="/dashboard" aria-label="校园智能安防系统">
+            <span class="brand-mark">AI</span>
+            <span class="brand-copy"><strong>校园安全中枢</strong><small>SECURITY CONSOLE</small></span>
+        </a>
+        <nav class="primary-nav" aria-label="主导航">
+            {% if 'monitor' in menus %}<a href="/monitor" data-nav="monitor"><span class="nav-icon">▣</span><span>监控中心</span></a>{% endif %}
+            {% if 'analysis' in menus %}<a href="/analysis" data-nav="analysis"><span class="nav-icon">◇</span><span>证据分析</span></a>{% endif %}
+            {% if 'alarms' in menus %}<a href="/events" data-nav="events"><span class="nav-icon">!</span><span>报警事件</span><b class="nav-count" id="navAlarmCount">0</b></a>{% endif %}
+            {% if 'devices' in menus %}<a href="/devices" data-nav="devices"><span class="nav-icon">▦</span><span>设备状态</span><b class="nav-count neutral" id="navDeviceCount">0</b></a>{% endif %}
+            {% if 'settings' in menus %}<a href="/settings" data-nav="settings"><span class="nav-icon">⚙</span><span>系统配置</span></a>{% endif %}
+        </nav>
+        <div class="sidebar-section">
+            <p>业务工具</p>
+            {% if 'dashboard' in menus %}<a href="/dashboard">态势大屏</a>{% endif %}
+            {% if 'home' in menus %}<a href="/">演示控制台</a>{% endif %}
+            {% if 'access' in menus %}<a href="/access">门禁管理</a>{% endif %}
+            {% if 'visitors' in menus %}<a href="/visitors">访客管理</a>{% endif %}
+            {% if 'sensors' in menus %}<a href="/sensors">传感器</a>{% endif %}
+            {% if 'map' in menus %}<a href="/map">校园地图</a>{% endif %}
+            {% if 'users' in menus %}<a href="/users">用户管理</a>{% endif %}
+        </div>
+        <footer class="sidebar-footer">
+            <span><i class="connection-dot" id="sidebarConnectionDot"></i><b id="sidebarConnection">后端检测中</b></span>
+            <small>系统版本 2.0.0</small>
+            <a href="/logout">退出登录</a>
+        </footer>
+    </aside>
+    <section class="app-workspace">
+        <header class="global-bar">
+            <button class="icon-btn menu-toggle" id="menuToggle" type="button" title="展开或收起导航">☰</button>
+            <div class="page-heading"><h1>{% block page_title %}校园智能安防系统{% endblock %}</h1><span>/ {% block breadcrumb %}实时态势{% endblock %}</span></div>
+            <div class="global-status">
+                <span class="status-badge info" id="globalSystemState">系统检测中</span>
+                <span class="status-badge normal" id="globalConnectionState">实时连接正常</span>
+                <span class="risk-summary">最高风险：<b id="globalHighestRisk">—</b></span>
+                <a class="alarm-summary" href="/events">报警 <b id="globalAlarmCount">0</b></a>
+                <time id="globalClock">—</time>
+            </div>
+            <div class="global-actions">
+                {% if 'monitor' in menus %}<button class="btn primary compact" id="globalStartBtn" type="button">启动分析</button><button class="btn danger compact" id="globalStopBtn" type="button">停止分析</button>{% endif %}
+                <button class="icon-btn" id="globalMuteBtn" type="button" title="报警静音 30 秒">⌁</button>
+                <button class="icon-btn" id="globalFullscreenBtn" type="button" title="切换全屏">⛶</button>
+            </div>
+        </header>
+        <div class="connection-banner hidden" id="connectionBanner">实时连接已断开，正在尝试重连。页面保留的是最后数据，可能已过期。</div>
+        <div class="content-frame">{% block content %}{% endblock %}</div>
+    </section>
+</div>
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+<script>window.CAMPUS_RUNTIME_CONFIG = {{ frontend_config | tojson }};</script>
+<script src="/static/js/api-client.js"></script>
+<script src="/static/js/app.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

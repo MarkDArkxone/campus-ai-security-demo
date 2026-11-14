@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.venv/
+uvicorn.*.log
+data/*.db
+app/static/snapshots/*.jpg
+app/static/snapshots/*.png
+yolov8*.pt

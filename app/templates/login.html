@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 校园智能安防系统</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="login-body">
+<main class="login-card">
+    <p class="eyebrow">Campus AI Security</p>
+    <h1>系统登录</h1>
+    <p class="muted">默认账号：admin</p>
+    {% if error %}<div class="error">{{ error }}</div>{% endif %}
+    <form method="post" action="/login" class="form-grid">
+        <label>用户名<input name="username" value="admin" required></label>
+        <label>密码<input name="password" type="password" required></label>
+        <button class="btn primary" type="submit">登录</button>
+    </form>
+</main>
+</body>
+</html>

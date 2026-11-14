@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}态势大屏 - 校园智能安防系统{% endblock %}
+{% block head %}<link rel="stylesheet" href="/static/css/dashboard.css">{% endblock %}
+{% block page_title %}基于深度学习的校园智能安防系统{% endblock %}
+{% block content %}
+<main class="bigscreen">
+    <section class="screen-top">
+        <span id="nowTime"></span>
+        <span id="systemStatus">系统运行中 · 模拟演示模式可用</span>
+    </section>
+    <section class="screen-grid">
+        <aside class="screen-col metric-col">
+            <div class="metric"><span>今日告警</span><strong id="todayAlarm">0</strong></div>
+            <div class="metric danger-metric"><span>高危告警</span><strong id="highAlarm">0</strong></div>
+            <div class="metric"><span>在线设备</span><strong id="onlineDevice">0</strong></div>
+            <div class="metric"><span>当前监控人数</span><strong id="personCount">0</strong></div>
+        </aside>
+        <section class="screen-map" id="dashboardMap"></section>
+        <aside class="screen-col">
+            <div class="screen-card-head">
+                <h3>最新告警</h3>
+                <span class="live-dot">LIVE</span>
+            </div>
+            <div id="latestAlarms" class="alarm-feed tall auto-scroll-list"></div>
+        </aside>
+    </section>
+    <section class="screen-bottom">
+        <div class="screen-card"><h3>告警类型统计</h3><div id="alarmBars"></div></div>
+        <div class="screen-card"><h3>设备在线率</h3><div class="rate-ring" id="deviceRate">0%</div></div>
+        <div class="screen-card"><h3>近 24 小时告警趋势</h3><div class="trend-line" id="trendLine"></div></div>
+    </section>
+</main>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}

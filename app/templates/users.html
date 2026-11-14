@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}用户管理 - 校园智能安防系统{% endblock %}
+{% block page_title %}用户管理{% endblock %}
+{% block content %}
+<main class="stack">
+    <section class="panel">
+        <h3>新增用户</h3>
+        <form id="userForm" class="form-row"><input name="username" placeholder="用户名" required><input name="password" placeholder="密码" required><select name="role"><option value="admin">admin</option><option value="security">security</option><option value="teacher">teacher</option><option value="viewer">viewer</option></select><input name="display_name" placeholder="显示名"><button class="btn primary">保存</button></form>
+    </section>
+    <section class="panel"><h3>用户列表</h3><div class="table-wrap"><table><thead><tr><th>ID</th><th>用户名</th><th>角色</th><th>显示名</th><th>启用</th></tr></thead><tbody id="usersBody"></tbody></table></div></section>
+</main>
+{% endblock %}
+{% block scripts %}<script>initUsersPage();</script>{% endblock %}

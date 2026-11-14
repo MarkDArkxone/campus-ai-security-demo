@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}校园地图 - 校园智能安防系统{% endblock %}
+{% block page_title %}校园地图{% endblock %}
+{% block content %}
+<main class="map-layout">
+    <section class="campus-map" id="campusMap">
+        <div class="building b1">教学楼</div><div class="building b2">宿舍</div><div class="building b3">食堂</div><div class="building b4">操场</div><div class="building b5">配电房</div>
+    </section>
+    <aside class="panel"><h3>点位详情</h3><div id="pointDetail" class="muted">点击地图点位查看详情</div><h3>实时告警</h3><div class="alarm-feed tall" id="alarmFeed"><div class="empty">暂无告警</div></div></aside>
+</main>
+{% endblock %}
+{% block scripts %}<script src="/static/js/map.js"></script>{% endblock %}

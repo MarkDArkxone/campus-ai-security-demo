@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}设备状态 - 校园智能安防系统{% endblock %}
+{% block page_id %}devices{% endblock %}
+{% block page_title %}设备状态{% endblock %}
+{% block breadcrumb %}输入设备与连接诊断{% endblock %}
+{% block content %}
+<main class="stack">
+    <section class="toolbar panel"><div><h2>设备运行概览</h2><p>集中查看摄像头、音频和传感器输入状态。</p></div><div class="actions"><button class="btn secondary" id="refreshDevicesBtn" type="button">刷新全部设备</button><button class="btn secondary" id="copyDiagnosticsBtn" type="button">复制设备诊断</button></div></section>
+    <section class="device-card-grid">
+        <article class="device-card"><header><div><small>VIDEO INPUT</small><h2>校园主摄像头</h2></div><span class="status-badge info" id="cameraStatusBadge">检测中</span></header><dl><div><dt>设备编号</dt><dd>CAM-001</dd></div><div><dt>视频源</dt><dd id="deviceVideoSource">—</dd></div><div><dt>分辨率</dt><dd>960 × 540</dd></div><div><dt>采集 FPS</dt><dd>—</dd></div><div><dt>检测 FPS</dt><dd>—</dd></div><div><dt>连续错误</dt><dd id="deviceVideoError">—</dd></div></dl><footer><button class="btn primary compact" id="reconnectVideoBtn">重新连接</button><a class="btn secondary compact" href="/monitor">测试画面</a></footer></article>
+        <article class="device-card"><header><div><small>AUDIO INPUT</small><h2>环境麦克风</h2></div><span class="status-badge muted">未连接</span></header><dl><div><dt>音频设备</dt><dd>—</dd></div><div><dt>采样率</dt><dd>—</dd></div><div><dt>最近音频</dt><dd>—</dd></div><div><dt>YAMNet 状态</dt><dd>模型未加载</dd></div></dl><div class="empty-inline">该证据源不会参与判断。</div><footer><button class="btn secondary compact" disabled>重新连接</button><button class="btn secondary compact" disabled>测试音频</button></footer></article>
+        <article class="device-card"><header><div><small>SENSOR INPUT</small><h2>环境传感器组</h2></div><span class="status-badge normal" id="sensorDeviceBadge">模拟运行中</span></header><dl id="sensorDeviceSummary"><div><dt>连接模式</dt><dd>本地模拟</dd></div><div><dt>数据状态</dt><dd>检测中</dd></div></dl><footer><button class="btn secondary compact" data-sensor-action="normal">生成正常数据</button><button class="btn secondary compact" data-sensor-action="smoke">模拟烟雾高值</button><button class="btn danger compact" id="stopSensorSimulation">停止模拟</button><button class="btn primary compact" id="startSensorSimulation">恢复连接</button></footer></article>
+    </section>
+    <section class="panel"><div class="panel-title"><div><h2>门禁设备</h2><p>门禁与读卡终端在线状态</p></div><a class="btn secondary compact" href="/access">进入门禁管理</a></div><div class="table-wrap"><table><thead><tr><th>设备编号</th><th>名称</th><th>位置</th><th>设备类型</th><th>状态</th></tr></thead><tbody id="accessDeviceBody"><tr><td colspan="5" class="empty-cell">正在加载</td></tr></tbody></table></div></section>
+    <section class="panel"><div class="panel-title"><div><h2>最近诊断</h2><p>连接循环、检测模式和最近错误</p></div></div><pre class="diagnostics" id="deviceDiagnostics">正在读取诊断...</pre></section>
+</main>
+{% endblock %}
+{% block scripts %}<script src="/static/js/console.js"></script>{% endblock %}

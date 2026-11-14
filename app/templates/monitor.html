@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}监控中心 - 校园智能安防系统{% endblock %}
+{% block page_id %}monitor{% endblock %}
+{% block page_title %}监控中心{% endblock %}
+{% block breadcrumb %}实时态势{% endblock %}
+{% block content %}
+<main class="monitor-console">
+    <section class="video-monitor panel" id="videoPanel">
+        <div class="panel-title"><div><h2>实时视频</h2><p id="videoSourceLabel">视频源：正在读取</p></div><span class="status-badge info" id="videoMode">待启动</span></div>
+        <div class="video-stage"><img class="video-feed" id="videoFeed" data-stream-path="/video_feed" alt="检测视频流"><div class="video-empty hidden" id="videoEmpty"><strong>视频不可用</strong><span>请检查视频源，系统将继续尝试模拟画面。</span></div></div>
+        <div class="video-meta"><span>尺寸 <b>960 × 540</b></span><span>采集 FPS <b id="captureFps">—</b></span><span>检测 FPS <b id="detectFps">—</b></span><span>最近帧 <b id="lastFrameAt">—</b></span></div>
+        <div class="video-tools">
+            <button class="btn secondary compact" id="snapshotBtn" type="button">保存截图</button>
+            <button class="btn secondary compact" id="videoFullscreenBtn" type="button">全屏视频</button>
+            <button class="btn secondary compact active" id="boxToggle" type="button">显示检测框</button>
+            <button class="btn secondary compact" type="button" disabled title="当前后端未接入姿态模型">姿态骨架未加载</button>
+            <button class="btn secondary compact" type="button" disabled title="当前后端未接入跟踪轨迹">跟踪轨迹未加载</button>
+        </div>
+    </section>
+    <aside class="risk-column">
+        <article class="risk-card scene-fire" data-scene="fire"><header><span>烟火</span><b class="status-badge muted">暂无有效证据</b></header><strong class="risk-number">—</strong><dl><div><dt>Bel</dt><dd>—</dd></div><div><dt>Pl</dt><dd>—</dd></div><div><dt>Unknown</dt><dd>—</dd></div><div><dt>Conflict</dt><dd>—</dd></div></dl><p>参与通道：视频（规则/模型）<br>缺失通道：音频、DS 融合</p><footer><a href="/analysis?scene=fire">查看证据</a><a href="/analysis?scene=fire#trend">查看趋势</a></footer></article>
+        <article class="risk-card scene-fall" data-scene="fall"><header><span>跌倒</span><b class="status-badge muted">规则检测</b></header><strong class="risk-number">—</strong><dl><div><dt>Bel</dt><dd>—</dd></div><div><dt>Pl</dt><dd>—</dd></div><div><dt>Unknown</dt><dd>—</dd></div><div><dt>Conflict</dt><dd>—</dd></div></dl><p>参与通道：视频框宽高比<br>缺失通道：姿态、DS 融合</p><footer><a href="/analysis?scene=fall">查看证据</a><a href="/analysis?scene=fall#trend">查看趋势</a></footer></article>
+        <article class="risk-card scene-fight" data-scene="fight"><header><span>打架</span><b class="status-badge muted">模型未加载</b></header><strong class="risk-number">—</strong><dl><div><dt>Bel</dt><dd>—</dd></div><div><dt>Pl</dt><dd>—</dd></div><div><dt>Unknown</dt><dd>—</dd></div><div><dt>Conflict</dt><dd>—</dd></div></dl><p>该证据源不会参与判断。<br>缺失通道：动作模型、音频</p><footer><a href="/analysis?scene=fight">查看证据</a><span>趋势不可用</span></footer></article>
+    </aside>
+    <section class="alarm-banner hidden" id="currentAlarmBanner"><div><span class="alarm-kicker" id="bannerType">当前报警</span><h3 id="bannerMessage">—</h3><p id="bannerMeta">—</p></div><div class="actions"><button class="btn primary compact" id="ackAlarmBtn" type="button">确认报警</button><a class="btn secondary compact" href="/events">查看事件</a><a class="btn secondary compact" href="/analysis">查看证据</a><button class="btn secondary compact" id="mute30Btn" type="button">静音 30 秒</button></div></section>
+    <section class="device-summary-grid">
+        <article class="device-summary"><span class="device-icon">▣</span><div><small>摄像头</small><strong id="cameraSummary">状态检测中</strong><p id="cameraDetail">最近帧 —</p></div><a href="/devices">查看设备</a></article>
+        <article class="device-summary"><span class="device-icon">◉</span><div><small>麦克风</small><strong class="muted-text">未连接</strong><p>音频模型未加载</p></div><a href="/devices">查看设备</a></article>
+        <article class="device-summary"><span class="device-icon">⌁</span><div><small>传感器</small><strong id="sensorSummary">状态检测中</strong><p id="sensorDetail">数据新鲜度 —</p></div><a href="/devices">查看设备</a></article>
+    </section>
+</main>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/monitor.js"></script>
+{% endblock %}

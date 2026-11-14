@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}门禁管理 - 校园智能安防系统{% endblock %}
+{% block page_title %}门禁管理{% endblock %}
+{% block content %}
+<main class="stack">
+    <section class="panel">
+        <div class="tabbar">
+            <button class="tab active" data-tab="persons">人员</button>
+            <button class="tab" data-tab="devices">设备</button>
+            <button class="tab" data-tab="simulate">模拟通行</button>
+            <button class="tab" data-tab="records">出入记录</button>
+            <button class="tab" data-tab="visitors">访客</button>
+        </div>
+    </section>
+    <section class="panel tab-panel" id="tab-persons">
+        <h3>新增人员</h3>
+        <form id="personForm" class="form-row">
+            <input name="name" placeholder="姓名" required>
+            <select name="role"><option value="student">student</option><option value="teacher">teacher</option><option value="staff">staff</option><option value="visitor">visitor</option><option value="blacklist">blacklist</option></select>
+            <input name="student_no" placeholder="学号/工号">
+            <input name="phone" placeholder="电话">
+            <input name="department" placeholder="院系/部门">
+            <select name="status"><option value="normal">normal</option><option value="disabled">disabled</option><option value="blacklist">blacklist</option></select>
+            <button class="btn primary">保存</button>
+        </form>
+        <div class="table-wrap"><table><thead><tr><th>ID</th><th>姓名</th><th>角色</th><th>部门</th><th>状态</th></tr></thead><tbody id="personsBody"></tbody></table></div>
+    </section>
+    <section class="panel tab-panel hidden" id="tab-devices">
+        <h3>门禁设备</h3>
+        <div class="table-wrap"><table><thead><tr><th>ID</th><th>名称</th><th>位置</th><th>类型</th><th>状态</th></tr></thead><tbody id="devicesBody"></tbody></table></div>
+    </section>
+    <section class="panel tab-panel hidden" id="tab-simulate">
+        <h3>模拟通行</h3>
+        <form id="simulateForm" class="form-row">
+            <select name="person_id" id="simulatePerson"></select>
+            <select name="device_id" id="simulateDevice"></select>
+            <select name="auth_method"><option value="manual">manual</option><option value="face">face</option><option value="card">card</option><option value="qrcode">qrcode</option></select>
+            <button class="btn primary" data-type="entry">模拟入校</button>
+            <button class="btn" data-type="exit">模拟出校</button>
+        </form>
+        <p class="muted" id="simulateResult"></p>
+    </section>
+    <section class="panel tab-panel hidden" id="tab-records">
+        <h3>出入记录</h3>
+        <form id="recordFilter" class="form-row"><input name="name" placeholder="人员姓名"><select name="result"><option value="">全部结果</option><option value="allowed">allowed</option><option value="denied">denied</option></select><button class="btn">查询</button></form>
+        <div class="table-wrap"><table><thead><tr><th>时间</th><th>人员</th><th>设备</th><th>类型</th><th>方式</th><th>结果</th><th>消息</th></tr></thead><tbody id="recordsBody"></tbody></table></div>
+    </section>
+    <section class="panel tab-panel hidden" id="tab-visitors">
+        <h3>访客预约</h3>
+        <form id="visitorForm" class="form-row">
+            <input name="visitor_name" placeholder="访客姓名" required><input name="phone" placeholder="电话"><input name="host_name" placeholder="接待人"><input name="reason" placeholder="来访事由"><button class="btn primary">新增预约</button>
+        </form>
+        <div class="table-wrap"><table><thead><tr><th>ID</th><th>访客</th><th>电话</th><th>接待人</th><th>事由</th><th>状态</th><th>操作</th></tr></thead><tbody id="visitorsBody"></tbody></table></div>
+    </section>
+</main>
+{% endblock %}
+{% block scripts %}<script src="/static/js/access.js"></script>{% endblock %}

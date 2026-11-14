@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}报警事件 - 校园智能安防系统{% endblock %}
+{% block page_id %}events{% endblock %}
+{% block page_title %}报警事件{% endblock %}
+{% block breadcrumb %}历史报警检索与复盘{% endblock %}
+{% block content %}
+<main class="stack">
+    <section class="filter-bar panel">
+        <label>场景<select id="eventTypeFilter"><option value="">全部场景</option><option value="fire">烟火</option><option value="fall">跌倒</option><option value="fence">电子围栏</option><option value="crowd">人员聚集</option><option value="access">门禁异常</option><option value="sensor">传感器</option></select></label>
+        <label>报警等级<select id="eventLevelFilter"><option value="">全部等级</option><option value="high">高危</option><option value="medium">中危</option><option value="low">低危</option></select></label>
+        <label>事件编号<input id="eventIdFilter" type="number" min="1" placeholder="输入 ID"></label>
+        <label>事件状态<select id="eventStatusFilter"><option value="">全部状态</option><option value="unhandled">未确认</option><option value="handled">已确认</option></select></label>
+        <button class="btn primary compact" id="queryEventsBtn" type="button">查询事件</button><button class="btn secondary compact" id="resetEventsBtn" type="button">重置筛选</button>
+    </section>
+    <section class="panel">
+        <div class="table-head"><div><h2>历史报警事件</h2><p class="muted" id="eventCountText">正在加载</p></div><button class="btn secondary compact" id="refreshAlarmsBtn">刷新数据</button></div>
+        <div class="table-wrap"><table class="event-table"><thead><tr><th>时间</th><th>事件编号</th><th>场景</th><th>风险信息</th><th>等级</th><th>位置</th><th>状态</th><th>截图</th><th>操作</th></tr></thead><tbody id="alarmTableBody"><tr><td colspan="9" class="empty-cell">正在加载...</td></tr></tbody></table></div>
+        <div class="pagination"><button class="btn secondary compact" id="previousEventPage" type="button">上一页</button><span id="eventPageLabel">第 1 页</span><button class="btn secondary compact" id="nextEventPage" type="button">下一页</button></div>
+    </section>
+</main>
+<aside class="detail-drawer" id="eventDrawer" aria-hidden="true"><div class="drawer-head"><div><small>EVENT DETAILS</small><h2>事件详情</h2></div><button class="icon-btn" id="closeDrawerBtn" type="button" title="关闭">×</button></div><div id="eventDetailContent"></div><div class="drawer-actions"><button class="btn primary" id="drawerAckBtn" type="button">确认事件</button><button class="btn secondary" id="exportEventBtn" type="button">导出事件 JSON</button><button class="btn secondary" id="drawerCloseBtn" type="button">关闭详情</button></div></aside><div class="drawer-backdrop hidden" id="drawerBackdrop"></div>
+{% endblock %}
+{% block scripts %}<script src="/static/js/console.js"></script>{% endblock %}

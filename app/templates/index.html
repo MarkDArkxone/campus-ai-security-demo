@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}首页 - 校园智能安防系统{% endblock %}
+{% block page_title %}基于深度学习的校园智能安防系统 Demo{% endblock %}
+{% block content %}
+<main class="home-layout">
+    <section class="panel hero-panel">
+        <div class="status-row">
+            <span class="status-dot" id="statusDot"></span>
+            <span id="statusText">正在读取系统状态...</span>
+        </div>
+        <h2>课程设计 / 创新项目答辩演示台</h2>
+        <p>这里集中放置演示入口、演示流程和模拟告警按钮。没有摄像头、没有真实硬件时，也可以用模拟画面、模拟门禁和模拟传感器完成完整答辩演示。</p>
+        <div class="actions">
+            <button class="btn primary" id="startBtn">启动视频检测</button>
+            <button class="btn danger" id="stopBtn">停止检测</button>
+            <button class="btn" id="initDemoBtn">一键初始化演示数据</button>
+            <button class="btn primary" id="runDemoBtn">一键完整演示</button>
+            <a class="btn" href="/dashboard">进入数字孪生大屏</a>
+            <a class="btn" href="/monitor">查看监控</a>
+            <a class="btn" href="/alarms">查看告警中心</a>
+        </div>
+        <p class="muted" id="demoActionResult"></p>
+    </section>
+
+    <section class="panel">
+        <h3>运行配置</h3>
+        <div class="config-list" id="configList"></div>
+    </section>
+
+    <section class="panel wide">
+        <h3>演示流程引导</h3>
+        <div class="guide-grid">
+            <div><strong>1</strong><span>登录系统</span></div>
+            <div><strong>2</strong><span>进入数字孪生大屏</span></div>
+            <div><strong>3</strong><span>启动视频检测</span></div>
+            <div><strong>4</strong><span>触发模拟告警</span></div>
+            <div><strong>5</strong><span>查看告警中心</span></div>
+            <div><strong>6</strong><span>查看地图点位变化</span></div>
+            <div><strong>7</strong><span>模拟黑名单通行</span></div>
+            <div><strong>8</strong><span>模拟传感器异常</span></div>
+        </div>
+    </section>
+
+    <section class="panel wide">
+        <h3>演示告警快捷按钮</h3>
+        <div class="actions demo-actions">
+            <button class="btn danger" data-demo-trigger="fence">触发电子围栏告警</button>
+            <button class="btn danger" data-demo-trigger="crowd">触发人员聚集告警</button>
+            <button class="btn danger" data-demo-trigger="fall">触发疑似跌倒告警</button>
+            <button class="btn" data-demo-trigger="smoke">触发烟雾异常告警</button>
+            <button class="btn" data-demo-trigger="temperature">触发温度异常告警</button>
+            <button class="btn" data-demo-trigger="current">触发电流异常告警</button>
+            <button class="btn danger" data-demo-trigger="blacklist">触发黑名单通行告警</button>
+        </div>
+    </section>
+
+    <section class="panel wide">
+        <h3>实时告警</h3>
+        <div class="alarm-feed" id="alarmFeed"><div class="empty">等待新告警...</div></div>
+    </section>
+</main>
+{% endblock %}
+{% block scripts %}
+<script>initHomePage();</script>
+{% endblock %}

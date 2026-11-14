@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}系统配置 - 校园智能安防系统{% endblock %}
+{% block page_id %}settings{% endblock %}
+{% block page_title %}系统配置{% endblock %}
+{% block breadcrumb %}配置、模型与系统诊断{% endblock %}
+{% block content %}
+<main class="settings-layout">
+    <nav class="settings-nav"><a href="#fusion">融合配置</a><a href="#alarm">报警配置</a><a href="#models">模型状态</a><a href="#storage">数据存储</a><a href="#diagnostics">系统诊断</a></nav>
+    <div class="settings-content stack">
+        <section class="panel" id="fusion"><div class="panel-title"><div><h2>DS 融合配置</h2><p>当前后端未接入 DS 融合配置写入接口，按设计要求保持只读。</p></div><span class="status-badge muted">只读</span></div><div class="config-matrix"><div><span>参与证据源</span><b>视频、传感器</b></div><div><span>音频基础可靠度</span><b>—</b></div><div><span>报警阈值</span><b>由各检测规则管理</b></div><div><span>最大冲突阈值</span><b>—</b></div><div><span>连续确认时间</span><b id="fallFramesSetting">—</b></div><div><span>冷却时间</span><b id="cooldownSetting">—</b></div></div></section>
+        <section class="panel" id="alarm"><div class="panel-title"><div><h2>报警配置</h2><p>浏览器侧显示与通知策略</p></div></div><div class="toggle-list"><label><input type="checkbox" id="soundSetting" checked><span>浏览器报警声音<small>新报警到达且未静音时提示</small></span></label><label><input type="checkbox" disabled><span>浏览器通知<small>当前版本未申请系统通知权限</small></span></label><label><input type="checkbox" checked disabled><span>事件截图保存<small>视频检测报警自动保存截图</small></span></label><label><input type="checkbox" checked disabled><span>要求视频参与视频类报警<small>业务与传感器报警使用各自证据来源</small></span></label></div></section>
+        <section class="panel" id="models"><div class="panel-title"><div><h2>模型状态</h2><p>模型只展示状态，不提供在线训练或权重修改。</p></div></div><div class="table-wrap"><table><thead><tr><th>模型</th><th>状态</th><th>权重 / 来源</th><th>说明</th></tr></thead><tbody id="modelStatusBody"><tr><td>YOLO 人员检测</td><td><span class="status-badge info">检测中</span></td><td id="personModelSource">—</td><td>加载失败时自动使用 mock 检测</td></tr><tr><td>烟火检测</td><td><span class="status-badge info">规则可用</span></td><td id="fireModelSource">OpenCV HSV</td><td>自定义模型缺失时使用颜色规则</td></tr><tr><td>姿态 / 跌倒模型</td><td><span class="status-badge muted">未加载</span></td><td>bbox 宽高比规则</td><td>仅用于 Demo，不作医学判断</td></tr><tr><td>音频 / 打架模型</td><td><span class="status-badge muted">未加载</span></td><td>—</td><td>该证据源不会参与判断</td></tr></tbody></table></div></section>
+        <section class="panel" id="storage"><div class="panel-title"><div><h2>数据存储</h2><p>本地 SQLite 与报警截图目录</p></div></div><div class="config-matrix"><div><span>事件数据库</span><b>data/campus_security.db</b></div><div><span>截图位置</span><b>app/static/snapshots/</b></div><div><span>事件 JSONL</span><b>未启用</b></div><div><span>清理策略</span><b>手动保留</b></div></div></section>
+        <section class="panel" id="diagnostics"><div class="panel-title"><div><h2>系统诊断</h2><p>后端、视频、WebSocket 与传感器循环状态</p></div><div class="actions"><button class="btn secondary compact" id="refreshDiagnosticsBtn">刷新诊断</button><button class="btn secondary compact" id="copySystemDiagnosticsBtn">复制诊断 JSON</button></div></div><pre class="diagnostics" id="systemDiagnostics">正在读取诊断...</pre></section>
+    </div>
+</main>
+{% endblock %}
+{% block scripts %}<script src="/static/js/console.js"></script>{% endblock %}

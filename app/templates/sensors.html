@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}传感器 - 校园智能安防系统{% endblock %}
+{% block page_title %}传感器接入{% endblock %}
+{% block content %}
+<main class="stack">
+    <section class="panel">
+        <div class="actions"><button class="btn primary" id="sensorStart">启动模拟</button><button class="btn danger" id="sensorStop">停止模拟</button><button class="btn" data-abnormal="smoke">烟雾异常</button><button class="btn" data-abnormal="temperature">温度异常</button><button class="btn" data-abnormal="current">电流异常</button></div>
+    </section>
+    <section class="panel">
+        <h3>新增传感器</h3>
+        <form id="sensorForm" class="form-row">
+            <input name="name" placeholder="名称" required><select name="sensor_type"><option value="smoke">smoke</option><option value="temperature">temperature</option><option value="current">current</option><option value="voltage">voltage</option><option value="humidity">humidity</option></select><input name="location" placeholder="位置"><input name="threshold_value" type="number" step="0.1" placeholder="阈值"><input name="unit" placeholder="单位"><button class="btn primary">保存</button>
+        </form>
+    </section>
+    <section class="dashboard-grid">
+        <div class="panel"><h3>设备列表</h3><div class="table-wrap"><table><thead><tr><th>ID</th><th>名称</th><th>类型</th><th>位置</th><th>阈值</th><th>状态</th></tr></thead><tbody id="sensorsBody"></tbody></table></div></div>
+        <div class="panel"><h3>最近数据</h3><div class="mini-chart" id="sensorChart"></div></div>
+    </section>
+    <section class="panel"><h3>历史数据</h3><div class="table-wrap"><table><thead><tr><th>时间</th><th>传感器</th><th>类型</th><th>位置</th><th>数值</th><th>阈值</th></tr></thead><tbody id="sensorDataBody"></tbody></table></div></section>
+</main>
+{% endblock %}
+{% block scripts %}<script src="/static/js/sensors.js"></script>{% endblock %}

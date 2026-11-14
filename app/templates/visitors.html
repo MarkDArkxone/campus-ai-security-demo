@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}访客管理 - 校园智能安防系统{% endblock %}
+{% block page_title %}访客管理{% endblock %}
+{% block content %}
+<main class="stack">
+    <section class="panel">
+        <h3>新增访客预约</h3>
+        <form id="visitorOnlyForm" class="form-row">
+            <input name="visitor_name" placeholder="访客姓名" required>
+            <input name="phone" placeholder="电话">
+            <input name="host_name" placeholder="接待人">
+            <input name="reason" placeholder="来访事由">
+            <button class="btn primary">新增预约</button>
+        </form>
+    </section>
+    <section class="panel">
+        <div class="table-head">
+            <h3>访客记录</h3>
+            <button class="btn compact" id="refreshVisitorsBtn">刷新</button>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr><th>ID</th><th>访客</th><th>电话</th><th>接待人</th><th>事由</th><th>状态</th><th>操作</th></tr>
+                </thead>
+                <tbody id="visitorOnlyBody"></tbody>
+            </table>
+        </div>
+    </section>
+</main>
+{% endblock %}
+{% block scripts %}
+<script>
+async function loadVisitorOnly() {
+    const visitors = await requestJson("/api/visitors");
+    const body = document.getElementById("visitorOnlyBody");
+    body.innerHTML = visitors.map(v => `<tr>
+        <td>${v.id}</td><td>${v.visitor_name}</td><td>${v.phone || ""}</td>
+        <td>${v.host_name || ""}</td><td>${v.reason || ""}</td>
+        <td><span class="${statusClass(v.status)}">${v.status}</span></td>
+        <td>
+            <button class="btn compact" onclick="visitorOnlyAction(${v.id}, 'approve')">通过</button>
+            <button class="btn compact danger" onclick="visitorOnlyAction(${v.id}, 'reject')">拒绝</button>
+            <button class="btn compact" onclick="visitorOnlyEntry(${v.id})">模拟入校</button>
+        </td>
+    </tr>`).join("") || `<tr><td colspan="7" class="empty-cell">暂无访客记录</td></tr>`;
+}
+async function visitorOnlyAction(id, action) {
+    await requestJson(`/api/visitors/${id}/${action}`, { method: "POST" });
+    await loadVisitorOnly();
+}
+async function visitorOnlyEntry(id) {
+    await requestJson(`/api/visitors/${id}/simulate-entry`, { method: "POST" });
+    await loadVisitorOnly();
+}
+document.getElementById("visitorOnlyForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await requestJson("/api/visitors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formJson(event.target))
+    });
+    event.target.reset();
+    await loadVisitorOnly();
+});
+document.getElementById("refreshVisitorsBtn").addEventListener("click", () => loadVisitorOnly().catch(alert));
+connectAlarmSocket();
+loadVisitorOnly().catch(alert);
+</script>
+{% endblock %}

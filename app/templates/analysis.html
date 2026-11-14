@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}证据分析 - 校园智能安防系统{% endblock %}
+{% block page_id %}analysis{% endblock %}
+{% block page_title %}证据分析{% endblock %}
+{% block breadcrumb %}检测证据与可信状态{% endblock %}
+{% block content %}
+<main class="stack">
+    <section class="filter-bar panel"><label>场景<select id="sceneFilter"><option value="all">全部</option><option value="fire">烟火</option><option value="fall">跌倒</option><option value="fight">打架</option></select></label><label>时间窗口<select id="windowFilter"><option>实时</option><option>1 分钟</option><option>5 分钟</option><option>30 分钟</option></select></label><label class="check-label"><input type="checkbox" id="conflictOnly"> 只看冲突</label><button class="btn secondary compact" id="pauseAnalysis" type="button">暂停实时更新</button><button class="btn secondary compact" id="exportEvidence" type="button">导出当前数据</button></section>
+    <section class="evidence-notice"><strong>当前系统未接入 DS 融合后端</strong><span>页面不会自行计算 Bel、Pl、Unknown 或 Conflict；无后端证据时统一显示“—”，不将未知状态解释为低风险。</span></section>
+    <section class="scene-grid" id="sceneGrid">
+        <article class="ds-card scene-fire" data-scene-card="fire"><header><h2>烟火</h2><span class="status-badge info">视频证据可用</span></header><div class="ds-score"><span>BetP 风险分</span><strong>—</strong></div><div class="ds-metrics"><span>Bel<b>—</b></span><span>Pl<b>—</b></span><span>Unknown<b>—</b></span><span>Conflict<b>—</b></span></div><p>参与：视频检测<br>缺失：音频、DS 融合</p></article>
+        <article class="ds-card scene-fall" data-scene-card="fall"><header><h2>跌倒</h2><span class="status-badge pending">规则证据</span></header><div class="ds-score"><span>BetP 风险分</span><strong>—</strong></div><div class="ds-metrics"><span>Bel<b>—</b></span><span>Pl<b>—</b></span><span>Unknown<b>—</b></span><span>Conflict<b>—</b></span></div><p>参与：视频框宽高比<br>缺失：姿态、音频、DS 融合</p></article>
+        <article class="ds-card scene-fight" data-scene-card="fight"><header><h2>打架</h2><span class="status-badge muted">模型未加载</span></header><div class="ds-score"><span>BetP 风险分</span><strong>—</strong></div><div class="ds-metrics"><span>Bel<b>—</b></span><span>Pl<b>—</b></span><span>Unknown<b>—</b></span><span>Conflict<b>—</b></span></div><p>暂无有效证据。该证据源不会参与判断。</p></article>
+    </section>
+    <section class="panel"><div class="panel-title"><div><h2>证据贡献</h2><p>后端原始检测状态与数据新鲜度</p></div><span class="status-badge muted">DS 字段未提供</span></div><div class="table-wrap"><table><thead><tr><th>通道</th><th>输入分数</th><th>基础可靠度</th><th>置信度质量</th><th>新鲜度质量</th><th>序列质量</th><th>有效可靠度</th><th>状态</th></tr></thead><tbody id="evidenceBody"><tr><td>video</td><td>—</td><td>—</td><td>—</td><td id="videoFreshness">—</td><td>—</td><td>—</td><td><span class="status-badge info">检测中</span></td></tr><tr><td>audio</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="status-badge muted">模型未加载</span></td></tr><tr><td>sensor</td><td>—</td><td>—</td><td>—</td><td id="sensorFreshness">—</td><td>—</td><td>—</td><td><span class="status-badge normal">模拟通道</span></td></tr></tbody></table></div></section>
+    <section class="panel" id="trend"><div class="panel-title"><div><h2>指标趋势</h2><p>等待后端提供 DS 时间序列</p></div><div class="segmented"><button class="active">1 分钟</button><button>5 分钟</button><button>30 分钟</button></div></div><div class="empty-state"><strong>暂无融合趋势数据</strong><span>当前后端只提供检测事件与设备状态，不会把缺失数据绘制为 0。</span></div></section>
+</main>
+{% endblock %}
+{% block scripts %}<script src="/static/js/console.js"></script>{% endblock %}
